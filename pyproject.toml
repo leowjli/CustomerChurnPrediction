@@ -12,6 +12,8 @@ numpy = "^2.1.3"
 openai = "^1.54.4"
 plotly = "^5.24.1"
 flask = "^3.1.0"
+xgboost = "^2.1.2"
+scikit-learn = "^1.5.2"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
