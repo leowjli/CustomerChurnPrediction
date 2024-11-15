@@ -169,7 +169,7 @@ def generate_email(probability, input_dict, explanation, surname):
 
 st.title("Customer Churn Prediction")
 
-df = pd.read_csv("churn.csv")
+df = pd.read_csv("assets/churn.csv")
 
 customers = [
     f"{row['CustomerId']} - {row['Surname']}" for _, row in df.iterrows()
