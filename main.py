@@ -89,45 +89,54 @@ def make_prediction(input_df, input_dict):
 def explain_prediction(probability, input_dict, surname):
     prompt = f"""You are an expert data scienctist at a bank, where you specialize in interpreting and explaining predictions of machine learning models. 
   
-  Your machine learning model has predicted that a customer {surname} has a {round(probability * 100, 1)}% probability of churning, based on the information provided below.
+    Your machine learning model has predicted that a customer {surname} has a {round(probability * 100, 1)}% probability of churning, based on the information provided below.
 
-  Here is the customer's information:
-  {input_dict}
+    Here is the customer's information:
+    {input_dict}
 
-  Here are the machine learning model's top 10 most important features for predicting churn:
+    Here are the machine learning model's top 10 most important features for predicting churn:
 
-              Feature | Importance
-    ------------------------------------------
-        NumOfProducts |  0.323888
-       IsActiveMember |  0.164146
-                  Age |  0.109550
-    Geography_Germany |  0.091373
-              Balance |  0.052786
-     Geography_France |  0.046463
-        Gender_Female |  0.045283
-      Geography_Spain |  0.036855
-          CreditScore |  0.035005
-      EstimatedSalary |  0.032655
-            HasCrCard |  0.031940
-               Tenure |  0.030054
-          Gender_Male |  0.000000
+                Feature | Importance
+        ------------------------------------------
+            NumOfProducts |  0.323888
+        IsActiveMember |  0.164146
+                    Age |  0.109550
+        Geography_Germany |  0.091373
+                Balance |  0.052786
+        Geography_France |  0.046463
+            Gender_Female |  0.045283
+        Geography_Spain |  0.036855
+            CreditScore |  0.035005
+        EstimatedSalary |  0.032655
+                HasCrCard |  0.031940
+                Tenure |  0.030054
+            Gender_Male |  0.000000
 
-  {pd.set_option('display.max_colwidth', None)}
+    {pd.set_option('display.max_colwidth', None)}
 
-  Here are summary statistics for churned customers:
-  {df[df['Exited'] == 1].describe()}
+    Here are summary statistics for churned customers:
+    {df[df['Exited'] == 1].describe()}
 
-  Here are summary statistics for non-churned customers:
-    {df[df['Exited'] == 0].describe()}
-    
+    Here are summary statistics for non-churned customers:
+        {df[df['Exited'] == 0].describe()}
+        
 
-  - If the customer has over a 40% risk of churning, generate a 3 sentence explanation of why they are at risk of churning.
-  - If the customer has less than a 40% risk of churning, generate a 3 sentence explanation of why they might not be at risk of churning.
-  - Your explanation should be based on the customer's information, the summary statistics of churned and non-churned customers, and the features importances provided.
+    - If the customer has over a 40% risk of churning, generate a 3 sentence explanation of why they are at risk of churning. 
+        For instance, consider that:
+            - If the customer has a low account balance or low tenure, they might be more likely to leave the bank, as churned customers may exhibit similar traits.
+            - If the customer is an inactive member (e.g., not using many bank products), this may align with trends seen in the churned group.
+            - Pay attention to feature importance to indicate which factors matter most in the prediction, such as whether they have multiple products, are active, or belong to certain geographical regions.
+    - If the customer has less than a 40% risk of churning, generate a 3 sentence explanation of why they might not be at risk of churning. 
+        For instance, consider that:
+            - If the customer has multiple products and is an active member, they are less likely to churn, as these features are commonly linked with retention.
+            - A higher account balance, longer tenure, or a high credit score may suggest the customer is more financially stable, which often correlates with a lower churn risk.
+            - Again, take into account the feature importance ranking to explain why these characteristics suggest loyalty.
 
-  Don't mention the probability of churning, or the machine learning model, or say anything like "Based on the machine learning model's prediction and top 10 most important features", just explain the prediction.
-            
-  """
+    - Your explanation should be based on the customer's information, the summary statistics of churned and non-churned customers, and the features importances provided.
+
+    Don't mention the probability of churning, or the machine learning model, or say anything like "Based on the machine learning model's prediction and top 10 most important features", just explain the prediction.
+                
+    """
 
     print("EXPLANATION PROMPT: ", prompt)
 
